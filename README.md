@@ -1,4 +1,4 @@
-# Store Provisioning Platform (Urumi)
+# Store Provisioning Platform 
 
 Kubernetes-native platform: create WooCommerce or Medusa stores on demand (one namespace per store), with a React dashboard and Helm deployment.
 
