@@ -1,0 +1,12 @@
+Store Provisioning Platform has been installed.
+
+1. Get the dashboard URL (ensure ingress controller is running):
+   {{- if .Values.ingress.enabled }}
+   Dashboard: http://{{ .Values.ingress.host }}
+   {{- else }}
+   Run: kubectl port-forward svc/{{ include "platform.fullname" . }} 3000:80 -n {{ .Release.Namespace }}
+   Then open http://localhost:3000
+   {{- end }}
+
+2. Create a store from the dashboard (WooCommerce or Medusa stub).
+3. Store URLs use template from INGRESS_HOST_TEMPLATE (see values).

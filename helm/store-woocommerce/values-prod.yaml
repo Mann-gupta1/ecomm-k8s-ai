@@ -1,0 +1,26 @@
+# Production values — validates via: helm template store-prod ./helm/store-woocommerce -f helm/store-woocommerce/values-prod.yaml
+# Shows: real domain, higher limits, production storage class, larger PVCs.
+
+storeId: "prod-store"
+storeName: "Production Store"
+ingressHost: "store-prod.yourdomain.com"
+
+wordpressImage: "your-registry/wordpress-woocommerce:latest"
+mysqlImage: "mysql:8.0"
+
+mysqlStorageSize: "10Gi"
+wordpressStorageSize: "5Gi"
+storageClass: "standard"
+
+quota:
+  requestsCpu: "4"
+  requestsMemory: "4Gi"
+  limitsCpu: "4"
+  limitsMemory: "4Gi"
+  pvcCount: "10"
+
+limitRange:
+  defaultCpu: "500m"
+  defaultMemory: "512Mi"
+  maxCpu: "2"
+  maxMemory: "2Gi"

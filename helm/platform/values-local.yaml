@@ -1,0 +1,23 @@
+# Local Kubernetes (Kind / k3d / Minikube)
+# Usage: helm install platform ./helm/platform -f helm/platform/values-local.yaml -n urumi --create-namespace
+
+image:
+  repository: urumi/platform
+  tag: latest
+  pullPolicy: Never  # use local image from kind/k3d
+
+ingress:
+  enabled: true
+  className: nginx
+  # nip.io: no /etc/hosts needed. Replace with your node IP if needed (e.g. 127.0.0.1 for port-forward).
+  host: dashboard.127.0.0.1.nip.io
+
+env:
+  PORT: "3001"
+  STORE_NAMESPACE_PREFIX: "store"
+  # Store URLs: http://store-<id>.127.0.0.1.nip.io (ensure ingress controller is installed)
+  INGRESS_HOST_TEMPLATE: "store-%s.127.0.0.1.nip.io"
+  PROVISIONING_TIMEOUT_MS: "600000"
+  MAX_STORES: "20"
+  # Optional: build docker/wordpress-woocommerce and set image for auto WooCommerce install
+  WORDPRESS_WOOCOMMERCE_IMAGE: ""

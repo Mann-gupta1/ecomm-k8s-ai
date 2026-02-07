@@ -1,0 +1,28 @@
+# Default / local-like values. Override with values-prod.yaml for production proof.
+
+storeId: "local-store"
+storeName: "Local Store"
+ingressHost: "store-local.127.0.0.1.nip.io"
+
+wordpressImage: "wordpress:6.4-php8.2-apache"
+mysqlImage: "mysql:8.0"
+
+# Storage (local)
+mysqlStorageSize: "2Gi"
+wordpressStorageSize: "1Gi"
+storageClass: null
+
+# ResourceQuota for this namespace
+quota:
+  requestsCpu: "2"
+  requestsMemory: "2Gi"
+  limitsCpu: "2"
+  limitsMemory: "2Gi"
+  pvcCount: "5"
+
+# LimitRange defaults
+limitRange:
+  defaultCpu: "500m"
+  defaultMemory: "512Mi"
+  maxCpu: "1"
+  maxMemory: "1Gi"

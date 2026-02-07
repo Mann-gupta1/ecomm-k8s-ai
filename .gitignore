@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+dist/
+build/
+*.tsbuildinfo
+
+# Env and secrets
+.env
+.env.local
+.env.*.local
+*.pem
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Kubeconfig (optional local override)
+kubeconfig.local
+
+# Testing
+coverage/
+.nyc_output/
+
+# Optional local Kind binary (scripts download to scripts/bin/)
+scripts/bin/
+STARTUP.md

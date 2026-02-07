@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wordpress-data
+  namespace: store-{{ .Values.storeId }}
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: {{ .Values.wordpressStorageSize | quote }}
+{{- if .Values.storageClass }}
+  storageClassName: {{ .Values.storageClass | quote }}
+{{- end }}

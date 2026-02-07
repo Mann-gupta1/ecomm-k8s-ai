@@ -1,0 +1,11 @@
+# Multi-node Kind cluster — simulates production scheduler behavior and pod distribution.
+# Usage: kind create cluster --name store-platform --config kind-multinode.yaml
+# Then: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker

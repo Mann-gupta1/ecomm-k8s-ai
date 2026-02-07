@@ -1,0 +1,43 @@
+# Production-like VPS (e.g. k3s / EKS)
+# Usage: helm install platform ./helm/platform -f helm/platform/values-prod.yaml -n urumi --create-namespace
+# Validated via: helm template platform ./helm/platform -f helm/platform/values-prod.yaml
+
+image:
+  repository: your-registry/urumi/platform
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
+
+# Production: run multiple replicas for availability
+replicaCount: 2
+
+ingress:
+  enabled: true
+  className: nginx
+  host: dashboard.yourdomain.com
+  annotations:
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+
+env:
+  PORT: "3001"
+  STORE_NAMESPACE_PREFIX: "store"
+  INGRESS_HOST_TEMPLATE: "store-%s.yourdomain.com"
+  PROVISIONING_TIMEOUT_MS: "600000"
+  MAX_STORES: "50"
+  WORDPRESS_WOOCOMMERCE_IMAGE: "your-registry/wordpress-woocommerce:latest"
+  # Abuse prevention (tighter in prod)
+  RATE_LIMIT_WINDOW_MS: "60000"
+  RATE_LIMIT_MAX_CREATES: "5"
+  MAX_CONCURRENT_PROVISIONING: "2"
+
+# Production resource limits (higher than local)
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "200m"
+  limits:
+    memory: "512Mi"
+    cpu: "1000m"
+
+# Optional: production storage class for platform PVCs (if we add any)
+# storageClass: standard

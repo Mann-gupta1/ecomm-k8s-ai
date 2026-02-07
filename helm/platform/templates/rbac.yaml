@@ -1,0 +1,40 @@
+{{- if .Values.serviceAccount.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "platform.fullname" . }}-orchestrator
+  labels:
+    {{- include "platform.labels" . | nindent 4 }}
+rules:
+  # Create/delete store namespaces and manage all resources inside them
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["create", "get", "list", "delete"]
+  - apiGroups: [""]
+    resources: ["secrets", "configmaps", "persistentvolumeclaims", "services", "pods", "pods/log", "resourcequotas", "limitranges"]
+    verbs: ["create", "get", "list", "watch", "update", "patch", "delete"]
+  - apiGroups: ["apps"]
+    resources: ["deployments", "statefulsets"]
+    verbs: ["create", "get", "list", "watch", "update", "patch", "delete"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["ingresses", "networkpolicies"]
+    verbs: ["create", "get", "list", "watch", "update", "patch", "delete"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["create", "get", "list", "watch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "platform.fullname" . }}-orchestrator
+  labels:
+    {{- include "platform.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "platform.fullname" . }}-orchestrator
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "platform.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end }}
